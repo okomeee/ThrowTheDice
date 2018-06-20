@@ -13,7 +13,11 @@
       "type": "image/png"
     }
   ],
+<<<<<<< HEAD
+  "start_url": "/index.html",
+=======
   "start_url": "/sai/#/",
+>>>>>>> origin/gh-pages
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#4DBA87"
