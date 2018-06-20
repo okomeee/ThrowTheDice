@@ -11,8 +11,8 @@
   <div style="text-align: center;">
     <button @click="doOn()"><p style="margin:0;font-size:20px">{{ flag }}</p></button>
   </div>
-  <div style="text-align: center;">
-    <div v-show="isDraw" ref="vue"></div>
+  <div v-show="isDraw" style="text-align: center;margin:10% 0;">
+    <div ref="vue"></div>
   </div>
 
   </v-ons-page>
@@ -40,7 +40,7 @@ export default {
     light.position.set(0, 0, 10)
 
     const geometry = new THREE.BoxGeometry(1, 1, 1)
-    const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 })
+    const material = new THREE.MeshStandardMaterial({ color: 0x00ffff })
     const cube = new THREE.Mesh(geometry, material)
     return {
       msg: 'Shake the dice',
@@ -50,7 +50,8 @@ export default {
       renderer: renderer,
       camera: camera,
       light: light,
-      cube: cube
+      cube: cube,
+      state: ''
     }
   },
   created () {
@@ -64,19 +65,24 @@ export default {
     this.$refs.vue.appendChild(this.renderer.domElement)
   },
   methods: {
-    animate () {
-      requestAnimationFrame(this.animate)
-      this.cube.rotation.x += 0.05
-      this.cube.rotation.y += 0.05
-      this.renderer.render(this.scene, this.camera)
+    animate (flag) {
+      if (flag) {
+        this.state = requestAnimationFrame(this.animate)
+        this.cube.rotation.x += 0.05
+        this.cube.rotation.y += 0.05
+        this.renderer.render(this.scene, this.camera)
+      } else {
+        cancelAnimationFrame(this.state)
+      }
     },
     doOn () {
-      this.animate()
       this.isDraw = !this.isDraw
       if (this.isDraw) {
         this.flag = 'OFF'
+        this.animate(this.isDraw)
       } else {
         this.flag = 'ON'
+        this.animate(this.isDraw)
       }
     }
   }
